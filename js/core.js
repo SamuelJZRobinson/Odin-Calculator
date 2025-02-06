@@ -123,8 +123,9 @@ function operate(){
     updateDisplay(output)
 
     // Replace x with output
-    x = output.toString().split('').map(Number);
+    x = output.toString().split('');
     y = [];
+    console.log("output",output);
     console.log("output x",x);
   }
   else{
