@@ -5,42 +5,60 @@ let currentOperator;
 let output;
 const MAX_NUMBER_LENGTH = 12;
 const SCREEN_OUTPUT = document.querySelector("#screen-output");
-
-// Reset default values
 clearData();
 
-// Add Thing To Calculation
+// Modify Data
+/**
+ * Updates the calculator display with a string.
+ * 
+ * @param {*} newText - The new text to update the display.
+ */
 function updateDisplay(newText){
   SCREEN_OUTPUT.textContent = newText;
 }
 
-function setOperator(test){
+/**
+ * Sets the operator that affects both numbers. 
+ * Only set the operator between both numbers when x is set but y is not set.
+ * 
+ * @param {*} newOperator - The new operator char to overwrite the operator.
+ */
+function setOperator(newOperator){
   isXSet = x.length > 0;
   isYSet = y.length > 0;
-
-  // Only set after x and before y
+  
   if (isXSet && !isYSet){
-    currentOperator = test;
-    console.log("current operator",currentOperator);
+    currentOperator = newOperator;
   }
 }
 
-function setNumber(test){
-  // Operator set impplies number 1 is set.
+/**
+ * Appends a number onto the active number array.
+ * The active number is based on whether the operator is set, not set is x and set is y.
+ * 
+ * @param {*} newDigit - The new digit char to append onto a number array.
+ */
+function appendNumber(newDigit){
   if (currentOperator == ""){
     if (x.length < MAX_NUMBER_LENGTH){
-      x.push(test);
+      x.push(newDigit);
       updateDisplay(x.join(''));
     }
   }
   else{
     if (y.length < MAX_NUMBER_LENGTH){
-      y.push(test);
+      y.push(newDigit);
       updateDisplay(y.join(''));
     }
   }
 }
 
+/**
+ * The root for appending operators and numbers.
+ * 
+ * @param {*} button - The button that called the function, retrieves the data-value from it.
+ * @returns Nothing, early return to avoid errors by passing an operator into the number checker.
+ */
 function appendValue(button){
   let value = button.getAttribute("data-value");
 
@@ -49,19 +67,18 @@ function appendValue(button){
     return;
   }
   
-  setNumber(value);
-  console.log("x",x);
-  console.log("y",y);
-  console.log("current operator",currentOperator);
+  appendNumber(value);
 }
 
+/**
+ * Removes items from the active number array based on whether the operator is set, not set is x and set is y.
+ * Single subtraction symbols are removed from number arrays to avoid nan errors.
+ */
 function removeValue(){
-  // 
   if ((currentOperator == "")){
     if (x.length > 0){
       x.pop();
 
-      // Avoid lone subtraction symbol
       if(x.length == 1){
         if(x.includes("-")){
           x = [];
@@ -75,7 +92,6 @@ function removeValue(){
     if (y.length > 0){
       y.pop();
 
-      // Avoid lone subtraction symbol
       if(y.length == 1){
         if(y.includes("-")){
           y = [];
@@ -88,6 +104,10 @@ function removeValue(){
 }
 
 const DECIMAL = '.';
+/**
+ * Adds decimal to active number based on whether the operator is set, not set is x and set is y.
+ * Numbers can only have one decimal.
+ */
 function addDecimal(){
     if (currentOperator == ""){
       if (x.length < MAX_NUMBER_LENGTH){
@@ -108,38 +128,70 @@ function addDecimal(){
 }
 
 // Calculate
+/**
+ * Resets all data to its default state.
+ */
 function clearData(){
   x = [];
   y = [];
-  previousOperator = "";
   currentOperator = "";
   output = "";
   
   updateDisplay("");
-
-  console.log("x",x);
-  console.log("y",y);
-  console.log("current operator",currentOperator);
+  console.log("Clear data");
 }
 
+/**
+ * Adds two numbers together.
+ * 
+ * @param {*} num1 - x
+ * @param {*} num2 - y
+ * @returns - number using the same input format.
+ */
 function add(num1,num2){
   return num1 + num2;
 }
 
+/**
+ * Subtracts two numbers together.
+ * 
+ * @param {*} num1 - x
+ * @param {*} num2 - y
+ * @returns - number using the same input format.
+ */
 function subtract(num1,num2){
   return num1 - num2;
 }
 
+/**
+ * Multiplies two numbers together.
+ * 
+ * @param {*} num1 - x
+ * @param {*} num2 - y
+ * @returns - number using the same input format.
+ */
 function multiply(num1,num2){
   return num1 * num2;
 }
 
+/**
+ * Divides two numbers together.
+ * 
+ * @param {*} num1 
+ * @param {*} num2 
+ * @returns - number using the same input format.
+ */
 function divide(num1,num2){
   return num1 / num2;
 }
 
+/**
+ * Solve the equation.
+ * Number 1, operator, and number 2 must be set.
+ * Converting numbers to floats ensures decimal values can be calculated.
+ */
 function operate(){
-  // Check All Values Present
+  // Check all values set
   isXSet = x.length > 0;
   isOpSet = currentOperator != "";
   isYSet = y.length > 0;
@@ -151,7 +203,7 @@ function operate(){
     let newX = parseFloat(x.join(''));
     let newY = parseFloat(y.join(''));
 
-    // Apply math operation
+    // Apply math operation based on operator
     switch(currentOperator){
       case "+":
         output = add(newX,newY);
@@ -166,6 +218,7 @@ function operate(){
         output = divide(newX,newY);
         break;
       default:
+        console.log("Calculation default triggered");
         output = 0;
     }
 
@@ -173,12 +226,9 @@ function operate(){
     x = output.toString().split('');
     y = [];
     currentOperator = "";
-    console.log("output",output);
-    console.log("output x",x);
-    updateDisplay(x.join(''))
+    updateDisplay(x.join(''));
   }
   else{
     console.log("Not all values present");
-    return;
   }
 }
