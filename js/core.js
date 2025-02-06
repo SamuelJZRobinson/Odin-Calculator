@@ -56,6 +56,22 @@ function appendValue(button){
   console.log("current operator",currentOperator);
 }
 
+function removeValue(){
+  // 
+  if ((currentOperator == "") | (currentOperator != "" && x.length > 0)){
+    if (x.length > 0){
+      x.pop();
+      updateDisplay(x.join(''));
+    }
+  }
+  else{
+    if (y.length > 0){
+      y.pop();
+      updateDisplay(y.join(''));
+    }
+  }
+}
+
 // Calculate
 function clearData(){
   x = [];
@@ -64,8 +80,7 @@ function clearData(){
   currentOperator = "";
   output = "";
   
-  // Pretend zero
-  updateDisplay("0");
+  updateDisplay("");
 
   console.log("x",x);
   console.log("y",y);
@@ -119,14 +134,12 @@ function operate(){
         output = 0;
     }
 
-    // Update display
-    updateDisplay(output)
-
     // Replace x with output
     x = output.toString().split('');
     y = [];
     console.log("output",output);
     console.log("output x",x);
+    updateDisplay(x.join(''))
   }
   else{
     console.log("Not all values present");
