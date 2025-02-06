@@ -11,7 +11,7 @@ html, body{
   width: 384px;
   height: auto;
   margin: 100px auto;
-  padding: 16px;
+  padding: 20px;
   background-color: gray;
   border-radius: 16px;
 }
@@ -40,13 +40,20 @@ html, body{
   padding: 0;
   cursor: pointer;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 1.75rem;
   border: 1px black solid;
   border-radius: 6px;
 }
 
+.but,.icon{
+  font-size: 1.75rem !important;
+}
+
 .span-2{
   grid-column: span 2;
+}
+
+.red{
+  background-color: lightpink;
 }
 
 .blue{
