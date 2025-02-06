@@ -1,7 +1,6 @@
 // Global
 let x;
 let y;
-let previousOperator;
 let currentOperator;
 let output;
 const MAX_NUMBER_LENGTH = 12;
@@ -58,18 +57,54 @@ function appendValue(button){
 
 function removeValue(){
   // 
-  if ((currentOperator == "") | (currentOperator != "" && x.length > 0)){
+  if ((currentOperator == "")){
     if (x.length > 0){
       x.pop();
+
+      // Avoid lone subtraction symbol
+      if(x.length == 1){
+        if(x.includes("-")){
+          x = [];
+        }
+      }
+
       updateDisplay(x.join(''));
     }
   }
   else{
     if (y.length > 0){
       y.pop();
+
+      // Avoid lone subtraction symbol
+      if(y.length == 1){
+        if(y.includes("-")){
+          y = [];
+        }
+      }
+
       updateDisplay(y.join(''));
     }
   }
+}
+
+const DECIMAL = '.';
+function addDecimal(){
+    if (currentOperator == ""){
+      if (x.length < MAX_NUMBER_LENGTH){
+        if (!x.includes(DECIMAL)){
+          x.push(DECIMAL);
+          updateDisplay(x.join(''));
+        }
+      }
+    }
+    else{
+      if (y.length < MAX_NUMBER_LENGTH){
+        if (!y.includes(DECIMAL)){
+          y.push(DECIMAL);
+          updateDisplay(y.join(''));
+        }
+      }
+    }
 }
 
 // Calculate
@@ -137,6 +172,7 @@ function operate(){
     // Replace x with output
     x = output.toString().split('');
     y = [];
+    currentOperator = "";
     console.log("output",output);
     console.log("output x",x);
     updateDisplay(x.join(''))

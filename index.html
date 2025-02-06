@@ -22,6 +22,7 @@
       <!-- Row 1 -->
       <button class="but span-2 red" onclick="clearData();"><span class="material-symbols-outlined icon">delete</span></button>
       <button class="but span-2 red" onclick="removeValue();"><span class="material-symbols-outlined icon">backspace</span></button>
+
       <!-- Row 2 -->
       <button class="but" onclick="appendValue(this);" data-value="7">7</button>
       <button class="but" onclick="appendValue(this);" data-value="8">8</button>
@@ -39,7 +40,7 @@
       <button class="but" onclick="appendValue(this);" data-value="-">-</button>
       <!-- Row 5 -->
       <button class="but" onclick="appendValue(this);" data-value="0">0</button>
-      <!-- <button class="but" data-value=".">.</button> -->
+      <button class="but" onclick="addDecimal()">.</button>
       <button class="but blue" onclick="operate();">=</button>
       <button class="but" onclick="appendValue(this);" data-value="+">+</button>
     </div>
