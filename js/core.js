@@ -1,12 +1,20 @@
 // Global
-x = [];
-y = [];
-previousOperator = "";
-currentOperator = "";
-output = "";
-const MAX_NUMBER_LENGTH = 9;
+let x;
+let y;
+let previousOperator;
+let currentOperator;
+let output;
+const MAX_NUMBER_LENGTH = 12;
+const SCREEN_OUTPUT = document.querySelector("#screen-output");
+
+// Reset default values
+clearData();
 
 // Add Thing To Calculation
+function updateDisplay(newText){
+  SCREEN_OUTPUT.textContent = newText;
+}
+
 function setOperator(test){
   isXSet = x.length > 0;
   isYSet = y.length > 0;
@@ -23,11 +31,13 @@ function setNumber(test){
   if (currentOperator == ""){
     if (x.length < MAX_NUMBER_LENGTH){
       x.push(test);
+      updateDisplay(x.join(''));
     }
   }
   else{
     if (y.length < MAX_NUMBER_LENGTH){
       y.push(test);
+      updateDisplay(y.join(''));
     }
   }
 }
@@ -53,6 +63,9 @@ function clearData(){
   previousOperator = "";
   currentOperator = "";
   output = "";
+  
+  // Pretend zero
+  updateDisplay("0");
 
   console.log("x",x);
   console.log("y",y);
@@ -84,11 +97,11 @@ function operate(){
   if (isXSet & isOpSet & isYSet){
     console.log("Calculate answer");
 
+    // Convert inputs to floats
     let newX = parseFloat(x.join(''));
-    console.log(newX);
     let newY = parseFloat(y.join(''));
-    console.log(newY);
 
+    // Apply math operation
     switch(currentOperator){
       case "+":
         output = add(newX,newY);
@@ -105,7 +118,14 @@ function operate(){
       default:
         output = 0;
     }
-    console.log("Output",output);
+
+    // Update display
+    updateDisplay(output)
+
+    // Replace x with output
+    x = output.toString().split('').map(Number);
+    y = [];
+    console.log("output x",x);
   }
   else{
     console.log("Not all values present");
