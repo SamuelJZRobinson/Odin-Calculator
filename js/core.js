@@ -177,8 +177,8 @@ function multiply(num1,num2){
 /**
  * Divides two numbers together.
  * 
- * @param {*} num1 
- * @param {*} num2 
+ * @param {*} num1 - x
+ * @param {*} num2 - y
  * @returns - number using the same input format.
  */
 function divide(num1,num2){
