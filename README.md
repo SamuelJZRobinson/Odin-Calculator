@@ -1,2 +1,2 @@
 # calculator
-browser calculator
+Browser calculator
