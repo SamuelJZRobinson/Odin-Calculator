@@ -11,39 +11,42 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Tektur:wght@400..900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="main">
+<main>
+  <div id="calculator">
     <div id="screen">
-      <p id="screen-output"></p>
+      <p id="previous-operand">100,000,000,000</p>
+      <p id="current-operand">100,000,000,000</p>
     </div>
-    <div id="buttons-grid">
+    <div id="controls-container">
       <!-- Row 1 -->
-      <button class="but span-2 red" onclick="clearData();"><span class="material-symbols-outlined icon">delete</span></button>
-      <button class="but red" onclick="removeValue();"><span class="material-symbols-outlined icon">backspace</span></button>
-      <button class="but" onclick="appendValue(this);" data-value="/">÷</button>
+      <button data-clear class="span-2 red"><span class="material-symbols-outlined">delete</span></button>
+      <button data-backspace class="red"><span class="material-symbols-outlined">backspace</span></button>
+      <button data-operation>÷</button>
       <!-- Row 2 -->
-      <button class="but" onclick="appendValue(this);" data-value="7">7</button>
-      <button class="but" onclick="appendValue(this);" data-value="8">8</button>
-      <button class="but" onclick="appendValue(this);" data-value="9">9</button>
-      <button class="but" onclick="appendValue(this);" data-value="*">×</button>
+      <button data-number>7</button>
+      <button data-number>8</button>
+      <button data-number>9</button>
+      <button data-operation>×</button>
       <!-- Row 3 -->
-      <button class="but" onclick="appendValue(this);" data-value="4">4</button>
-      <button class="but" onclick="appendValue(this);" data-value="5">5</button>
-      <button class="but" onclick="appendValue(this);" data-value="6">6</button>
-      <button class="but" onclick="appendValue(this);" data-value="-">-</button>
+      <button data-number>4</button>
+      <button data-number>5</button>
+      <button data-number>6</button>
+      <button data-operation>-</button>
       <!-- Row 4 -->
-      <button class="but" onclick="appendValue(this);" data-value="1">1</button>
-      <button class="but" onclick="appendValue(this);" data-value="2">2</button>
-      <button class="but" onclick="appendValue(this);" data-value="3">3</button>
-      <button class="but" onclick="appendValue(this);" data-value="+">+</button>
+      <button data-number>1</button>
+      <button data-number>2</button>
+      <button data-number>3</button>
+      <button data-operation>+</button>
       <!-- Row 5 -->
-      <button class="but span-2" onclick="appendValue(this);" data-value="0">0</button>
-      <button class="but" onclick="addDecimal()">.</button>
-      <button class="but blue" onclick="operate();">=</button>
+      <button data-number>0</button>
+      <button data-number>.</button>
+      <button data-equals class="span-2 blue">=</button>
     </div>
   </div>
+  </main>
   <!-- JS -->
   <script src="js/core.js"></script>
 </body>

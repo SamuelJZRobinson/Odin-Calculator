@@ -1,89 +1,135 @@
+/* Uses joshwcomeau CSS Reset */
 /* Global */
-html, body{
+*, *::before, *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  background-color: rgb(196, 196, 196);
 }
 
-/* Main Container */
-#main{
-  width: 384px;
+* {
+  margin: 0;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Media */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Forms */
+input, button, textarea, select {
+  font: inherit;
+}
+
+/* Text */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+/* Root stacking context */
+#root, #__next {
+  isolation: isolate;
+}
+
+
+
+
+
+
+/* Main */
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background: url("../images/backgrounds/blurry-gradient.svg");
+  background-size: cover;
+}
+
+#calculator {
+  width: calc(6.5*64px);
   height: auto;
-  margin: 100px auto;
-  padding: 20px;
+  padding: 1.5rem;
   background-color: gray;
   border: 1px rgba(0,0,0,10%) solid;
-  border-radius: 16px;
+  border-radius: 2rem;
 }
 
 /* Screen */
-#screen{
-  display: flex;
+#screen {
   width: 100%;
-  height: 100px;
+  height: fit-content;
+  padding: 0.5rem;
   background-color: black;
   border-radius: 6px;
+  margin-bottom: 1rem;
 }
 
-#screen-output{
-  align-content: flex-end;
+#previous-operand {
   width: 100%;
+  height: auto;
   text-align: right;
-  margin: 0;
+  color: green;
+  font-size: 1.5rem;
+  font-family: "Tektur", serif;
+  font-weight: 400;
+}
+
+#current-operand {
+  width: 100%;
+  height: auto;
+  text-align: right;
   color: green;
   font-size: 2.5rem;
   font-family: "Tektur", serif;
-  font-optical-sizing: auto;
   font-weight: 400;
-  padding: 8px;
 }
 
-/* Buttons */
-#buttons-grid{
-  margin: 16px 0px 0px 0px;
+/* Controls */
+#controls-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(5, 1fr);
-  grid-column-gap: 8px;
-  grid-row-gap: 8px;
+  gap: 0.5rem;
 }
 
-.span-2{
+.span-2 {
   grid-column: span 2;
 }
 
-.but{
-  height: 80px;
-  margin: 0;
-  padding: 0;
+button {
+  height: 4rem;
+  width: 100%;
+  font-family: "Roboto", serif;;
+  font-size: 1.5rem;
+  font-weight: normal;
   cursor: pointer;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border: 1px rgba(0,0,0,30%) solid;
   background-color: white;
-  border-radius: 6px;
+  border-radius: 0.5rem;
 }
 
-.but:hover{
-  background-color: hsl(0, 0%, 85%);
+button:hover {
+  filter: brightness(85%);
+  -webkit-filter: brightness(85%);
 }
 
-.but,.icon{
-  font-size: 1.5rem !important;
-}
-
-.but.red{
+button.red {
   background-color: lightpink;
 }
 
-.but.red:hover{
-  background-color: hsl(351, 50%, 75%);
-}
-
-.but.blue{
+button.blue {
   background-color: skyblue;
-}
-
-.but.blue:hover{
-  background-color: hsl(197, 51%, 65%);
 }
