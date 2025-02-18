@@ -1,234 +1,184 @@
-// Global
-let x;
-let y;
-let currentOperator;
-let output;
-const MAX_NUMBER_LENGTH = 12;
-const SCREEN_OUTPUT = document.querySelector("#screen-output");
-clearData();
+// Tutorials Used:
+// Web Dev Simplified. (17 April 2019). Build A Calculator With JavaScript Tutorial. YouTube. https://youtu.be/j59qQ7YWLxw?si=qifx8xlTlX1xvWgW
 
-// Modify Data
-/**
- * Updates the calculator display with a string.
- * 
- * @param {*} newText - The new text to update the display.
- */
-function updateDisplay(newText){
-  SCREEN_OUTPUT.textContent = newText;
-}
+// DOM
+const PREVIOUS_OPERAND = document.querySelector("#previous-operand");
+const CURRENT_OPERAND = document.querySelector("#current-operand");
 
-/**
- * Sets the operator that affects both numbers. 
- * Only set the operator between both numbers when x is set but y is not set.
- * 
- * @param {*} newOperator - The new operator char to overwrite the operator.
- */
-function setOperator(newOperator){
-  isXSet = x.length > 0;
-  isYSet = y.length > 0;
-  
-  if (isXSet && !isYSet){
-    currentOperator = newOperator;
+const BUT_NUMBERS = document.querySelectorAll("button[data-number]");
+const BUT_OPERATIONS = document.querySelectorAll("button[data-operation]");
+const BUT_CLEAR = document.querySelector("button[data-clear]");
+const BUT_BACKSPACE = document.querySelector("button[data-backspace]");
+const BUT_EQUALS = document.querySelector("button[data-equals]");
+
+// Events
+BUT_NUMBERS.forEach(button => {
+  button.addEventListener("click", () => {
+    calculator.appendNumber(button.innerText);
+    calculator.updateDisplay();
+  })
+})
+
+BUT_OPERATIONS.forEach(button => {
+  button.addEventListener("click", () => {
+    calculator.chooseOperation(button.innerText);
+    calculator.updateDisplay();
+  })
+})
+
+BUT_EQUALS.addEventListener("click", button => {
+  calculator.compute();
+  calculator.updateDisplay();
+});
+
+BUT_CLEAR.addEventListener("click", button => {
+  calculator.clear();
+  calculator.updateDisplay();
+});
+
+BUT_BACKSPACE.addEventListener("click", button => {
+  calculator.backspace();
+  calculator.updateDisplay();
+});
+
+// Functions
+class Calculator{
+  constructor(previousOperandTextElement, currentOperandTextElement) {
+    this.previousOperandTextElement = previousOperandTextElement;
+    this.currentOperandTextElement = currentOperandTextElement;
+
+    this.previousOperand = "";
+    this.currentOperand = "";
+    this.operation = undefined;
+
+    this.clear();
+    this.updateDisplay();
   }
-}
 
-/**
- * Appends a number onto the active number array.
- * The active number is based on whether the operator is set, not set is x and set is y.
- * 
- * @param {*} newDigit - The new digit char to append onto a number array.
- */
-function appendNumber(newDigit){
-  if (currentOperator == ""){
-    if (x.length < MAX_NUMBER_LENGTH){
-      x.push(newDigit);
-      updateDisplay(x.join(''));
-    }
+  clear() {
+    this.previousOperand = "";
+    this.currentOperand = "";
+    this.operation = undefined;
   }
-  else{
-    if (y.length < MAX_NUMBER_LENGTH){
-      y.push(newDigit);
-      updateDisplay(y.join(''));
-    }
+
+  backspace() {
+    this.currentOperand = this.currentOperand.toString().slice(0,-1);
   }
-}
 
-/**
- * The root for appending operators and numbers.
- * 
- * @param {*} button - The button that called the function, retrieves the data-value from it.
- * @returns Nothing, early return to avoid errors by passing an operator into the number checker.
- */
-function appendValue(button){
-  let value = button.getAttribute("data-value");
-
-  if ("+-*/".includes(value)){
-    setOperator(value);
-    return;
+  appendNumber(number) {
+    if (number === '.' && this.currentOperand.includes(".")) return;
+    this.currentOperand = this.currentOperand.toString() + number.toString();
   }
-  
-  appendNumber(value);
-}
 
-/**
- * Removes items from the active number array based on whether the operator is set, not set is x and set is y.
- * Single subtraction symbols are removed from number arrays to avoid nan errors.
- */
-function removeValue(){
-  if ((currentOperator == "")){
-    if (x.length > 0){
-      x.pop();
-
-      if(x.length == 1){
-        if(x.includes("-")){
-          x = [];
-        }
-      }
-
-      updateDisplay(x.join(''));
+  chooseOperation(operation) {
+    if (this.currentOperand === "") return;
+    if (this.previousOperand !== "") {
+      this.compute();
     }
+    this.operation = operation;
+    this.previousOperand = this.currentOperand;
+    this.currentOperand = "";
   }
-  else{
-    if (y.length > 0){
-      y.pop();
 
-      if(y.length == 1){
-        if(y.includes("-")){
-          y = [];
-        }
-      }
-
-      updateDisplay(y.join(''));
-    }
+  /**
+   * Adds two numbers together.
+   * 
+   * @param {*} x - x
+   * @param {*} y - y
+   * @returns - number using the same input format.
+   */
+  add(x, y){
+    return x + y;
   }
-}
 
-const DECIMAL = '.';
-/**
- * Adds decimal to active number based on whether the operator is set, not set is x and set is y.
- * Numbers can only have one decimal.
- */
-function addDecimal(){
-    if (currentOperator == ""){
-      if (x.length < MAX_NUMBER_LENGTH){
-        if (!x.includes(DECIMAL)){
-          x.push(DECIMAL);
-          updateDisplay(x.join(''));
-        }
-      }
-    }
-    else{
-      if (y.length < MAX_NUMBER_LENGTH){
-        if (!y.includes(DECIMAL)){
-          y.push(DECIMAL);
-          updateDisplay(y.join(''));
-        }
-      }
-    }
-}
+  /**
+   * Subtracts two numbers together.
+   * 
+   * @param {*} x - x
+   * @param {*} y - y
+   * @returns - number using the same input format.
+   */
+  subtract(x, y){
+    return x - y;
+  }
 
-// Calculate
-/**
- * Resets all data to its default state.
- */
-function clearData(){
-  x = [];
-  y = [];
-  currentOperator = "";
-  output = "";
-  
-  updateDisplay("");
-  console.log("Clear data");
-}
+  /**
+   * Multiplies two numbers together.
+   * 
+   * @param {*} x - x
+   * @param {*} y - y
+   * @returns - number using the same input format.
+   */
+  multiply(x, y){
+    return x * y;
+  }
 
-/**
- * Adds two numbers together.
- * 
- * @param {*} num1 - x
- * @param {*} num2 - y
- * @returns - number using the same input format.
- */
-function add(num1,num2){
-  return num1 + num2;
-}
+  /**
+   * Divides two numbers together.
+   * 
+   * @param {*} x - x
+   * @param {*} y - y
+   * @returns - number using the same input format.
+   */
+  divide(x, y){
+    return x / y;
+  }
 
-/**
- * Subtracts two numbers together.
- * 
- * @param {*} num1 - x
- * @param {*} num2 - y
- * @returns - number using the same input format.
- */
-function subtract(num1,num2){
-  return num1 - num2;
-}
-
-/**
- * Multiplies two numbers together.
- * 
- * @param {*} num1 - x
- * @param {*} num2 - y
- * @returns - number using the same input format.
- */
-function multiply(num1,num2){
-  return num1 * num2;
-}
-
-/**
- * Divides two numbers together.
- * 
- * @param {*} num1 - x
- * @param {*} num2 - y
- * @returns - number using the same input format.
- */
-function divide(num1,num2){
-  return num1 / num2;
-}
-
-/**
- * Solve the equation.
- * Number 1, operator, and number 2 must be set.
- * Converting numbers to floats ensures decimal values can be calculated.
- */
-function operate(){
-  // Check all values set
-  isXSet = x.length > 0;
-  isOpSet = currentOperator != "";
-  isYSet = y.length > 0;
-
-  if (isXSet & isOpSet & isYSet){
-    console.log("Calculate answer");
-
-    // Convert inputs to floats
-    let newX = parseFloat(x.join(''));
-    let newY = parseFloat(y.join(''));
-
-    // Apply math operation based on operator
-    switch(currentOperator){
-      case "+":
-        output = add(newX,newY);
+  compute() {
+    let output;
+    const PREVIOUS_NUMBER = parseFloat(this.previousOperand);
+    const CURRENT_NUMBER = parseFloat(this.currentOperand);
+    if (isNaN(PREVIOUS_NUMBER) || isNaN(CURRENT_NUMBER)) return;
+    switch (this.operation){
+      case '+':
+        output = this.add(PREVIOUS_NUMBER, CURRENT_NUMBER);
         break;
-      case "-":
-        output = subtract(newX,newY);
+      case '-':
+        output = this.subtract(PREVIOUS_NUMBER, CURRENT_NUMBER);
         break;
-      case "*":
-        output = multiply(newX,newY);
+      case '×':
+        output = this.multiply(PREVIOUS_NUMBER, CURRENT_NUMBER);
         break;
-      case "/":
-        output = divide(newX,newY);
+      case '÷':
+        output = this.divide(PREVIOUS_NUMBER, CURRENT_NUMBER);
         break;
       default:
-        console.log("Calculation default triggered");
-        output = 0;
+        return;
+    }
+    this.currentOperand = output;
+    this.operation = undefined;
+    this.previousOperand = "";
+  }
+
+  getDisplayNumber(number) {
+    const STRING_NUMBER = number.toString();
+    const INTEGER_DIGITS = parseFloat(STRING_NUMBER.split('.')[0]);
+    const DECIMAL_DIGITS = STRING_NUMBER.split('.')[1];
+    let integerDisplay;
+    if (isNaN(INTEGER_DIGITS)) {
+      integerDisplay = "";
+    }
+    else {
+      integerDisplay = INTEGER_DIGITS.toLocaleString("en", {maximumFractionDigits: 0})
     }
 
-    // Replace x with output
-    x = output.toString().split('');
-    y = [];
-    currentOperator = "";
-    updateDisplay(x.join(''));
+    if (DECIMAL_DIGITS != null) {
+      return `${integerDisplay}.${DECIMAL_DIGITS}`;
+    }
+    else {
+      return integerDisplay;
+    }
   }
-  else{
-    console.log("Not all values present");
+
+  updateDisplay() {
+    this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand);
+    if (this.operation != null) {
+      this.previousOperandTextElement.innerText = `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`;
+    }
+    else {
+      this.previousOperandTextElement.innerText = "";
+    }
   }
 }
+
+let calculator = new Calculator(PREVIOUS_OPERAND, CURRENT_OPERAND);
