@@ -1,5 +1,15 @@
 /* Uses joshwcomeau CSS Reset */
 /* Global */
+:root {
+  --calculator-bg: hsl(0, 0%, 85%);
+  --screen-bg: hsl(99, 12%, 72%);
+  --screen-text: rgba(0,0,0,85%);
+  --button-light-bg: hsl(0, 0%, 65%);
+  --button-dark-bg: hsl(0, 0%, 45%);
+  --button-red-bg: hsl(0, 50%, 45%);
+  --button-text: white;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -11,6 +21,7 @@
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  font-family: "Roboto", serif;
 }
 
 /* Media */
@@ -57,9 +68,12 @@ main {
   width: auto;
   height: auto;
   padding: 1.5rem;
-  background-color: gray;
-  border: 1px rgba(0,0,0,10%) solid;
-  border-radius: 2rem;
+  background-color: var(--calculator-bg);
+  border: 1px rgba(0,0,0,15%) solid;
+  border-radius: 1.5rem;
+  box-shadow: 5px 5px 5px 0px rgba(0,0,0,30%);
+  -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,30%);
+  -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,30%);
 }
 
 #grid {
@@ -78,13 +92,14 @@ main {
   align-items: flex-end;
   justify-content: space-around;
   padding: 0.25rem;
-  background-color: black;
+  background-color: var(--screen-bg);
+  border: 1px rgba(0,0,0,15%) solid;
   border-radius: 6px;
 }
 
 #previous-operand {
   height: auto;
-  color: green;
+  color: var(--screen-text);
   font-size: 1.5rem;
   font-family: "Tektur", serif;
   font-weight: 400;
@@ -95,7 +110,7 @@ main {
   height: fit-content;
   word-wrap: break-word;
   word-break: break-all;
-  color: green;
+  color: var(--screen-text);
   font-size: 2rem;
   font-family: "Tektur", serif;
   font-weight: 400;
@@ -103,7 +118,6 @@ main {
 }
 
 /* Controls */
-
 .span-2 {
   grid-column: span 2;
 }
@@ -113,24 +127,29 @@ main {
 }
 
 button {
-  font-family: "Roboto", serif;;
   font-size: 1.5rem;
   font-weight: normal;
   cursor: pointer;
-  border: 1px rgba(0,0,0,30%) solid;
-  background-color: white;
+  border: 1px rgba(0,0,0,15%) solid;
   border-radius: 0.5rem;
 }
 
 button:hover {
-  filter: brightness(85%);
-  -webkit-filter: brightness(85%);
+  filter: brightness(75%);
+  -webkit-filter: brightness(75%);
+}
+
+button.light {
+  color: var(--button-text);
+  background-color: var(--button-light-bg);
+}
+
+button.dark {
+  color: var(--button-text);
+  background-color: var(--button-dark-bg);
 }
 
 button.red {
-  background-color: lightpink;
-}
-
-button.blue {
-  background-color: skyblue;
+  color: var(--button-text);
+  background-color: var(--button-red-bg);
 }
