@@ -12,6 +12,7 @@ const BUT_BACKSPACE = document.querySelector("button[data-backspace]");
 const BUT_EQUALS = document.querySelector("button[data-equals]");
 
 // Events
+// Add Number
 BUT_NUMBERS.forEach(button => {
   button.addEventListener("click", () => {
     calculator.appendNumber(button.innerText);
@@ -19,30 +20,38 @@ BUT_NUMBERS.forEach(button => {
   })
 })
 
+// Add Operator
 BUT_OPERATIONS.forEach(button => {
   button.addEventListener("click", () => {
-    calculator.chooseOperation(button.innerText);
+    calculator.setOperation(button.innerText);
     calculator.updateDisplay();
   })
 })
 
+// Equals
 BUT_EQUALS.addEventListener("click", button => {
   calculator.compute();
   calculator.updateDisplay();
 });
 
+// Clear
 BUT_CLEAR.addEventListener("click", button => {
   calculator.clear();
   calculator.updateDisplay();
 });
 
+// Backspace
 BUT_BACKSPACE.addEventListener("click", button => {
   calculator.backspace();
   calculator.updateDisplay();
 });
 
-// Functions
-class Calculator{
+// Core Logic
+/**
+ * A calculator that performs basic arithmetic (+, -, *, /) on two operands.
+ * Other Features: clear, backspace, and updating the UI.
+ */
+class Calculator {
   constructor(previousOperandTextElement, currentOperandTextElement) {
     this.previousOperandTextElement = previousOperandTextElement;
     this.currentOperandTextElement = currentOperandTextElement;
@@ -55,26 +64,44 @@ class Calculator{
     this.updateDisplay();
   }
 
+  /**
+   * Clear the calculator screen to its default state.
+   */
   clear() {
-    this.previousOperand = "";
-    this.currentOperand = "";
+    this.previousOperand = this.currentOperand = "";
     this.operation = undefined;
   }
 
+  /**
+   * Remove the last character from the current operand string.
+   */
   backspace() {
     this.currentOperand = this.currentOperand.toString().slice(0,-1);
   }
 
+  /**
+   * Concatenate the current operand string with a number.
+   * 
+   * @param {*} number Number being added.
+   * @returns Nothing, avoid duplicate decimal places.
+   */
   appendNumber(number) {
     if (number === '.' && this.currentOperand.includes(".")) return;
     this.currentOperand = this.currentOperand.toString() + number.toString();
   }
 
-  chooseOperation(operation) {
+  /**
+   * Sets the operator for the current operand.
+   * 
+   * @param {*} operation Operation (+, -, *, /)
+   * @returns Nothing, avoids setting the operation if the current operand string hasn't been set.
+   */
+  setOperation(operation) {
     if (this.currentOperand === "") return;
     if (this.previousOperand !== "") {
       this.compute();
     }
+
     this.operation = operation;
     this.previousOperand = this.currentOperand;
     this.currentOperand = "";
@@ -83,9 +110,9 @@ class Calculator{
   /**
    * Adds two numbers together.
    * 
-   * @param {*} x - x
-   * @param {*} y - y
-   * @returns - number using the same input format.
+   * @param {*} x Float first number.
+   * @param {*} y Float second number.
+   * @returns Float output.
    */
   add(x, y) {
     return x + y;
@@ -94,9 +121,9 @@ class Calculator{
   /**
    * Subtracts two numbers together.
    * 
-   * @param {*} x - x
-   * @param {*} y - y
-   * @returns - number using the same input format.
+   * @param {*} x Float first number.
+   * @param {*} y Float second number.
+   * @returns Float output.
    */
   subtract(x, y) {
     return x - y;
@@ -105,9 +132,9 @@ class Calculator{
   /**
    * Multiplies two numbers together.
    * 
-   * @param {*} x - x
-   * @param {*} y - y
-   * @returns - number using the same input format.
+   * @param {*} x Float first number.
+   * @param {*} y Float second number.
+   * @returns Float output.
    */
   multiply(x, y) {
     return x * y;
@@ -116,18 +143,24 @@ class Calculator{
   /**
    * Divides two numbers together.
    * 
-   * @param {*} x - x
-   * @param {*} y - y
-   * @returns - number using the same input format.
+   * @param {*} x Float first number.
+   * @param {*} y Float second number.
+   * @returns Float output.
    */
   divide(x, y) {
     return x / y;
   }
 
+  /**
+   * Solves the equation by parsing the previous operand and current operand.
+   * 
+   * @returns Nothing.
+   */
   compute() {
     let output;
     const PREVIOUS_NUMBER = parseFloat(this.previousOperand);
     const CURRENT_NUMBER = parseFloat(this.currentOperand);
+
     if (isNaN(PREVIOUS_NUMBER) || isNaN(CURRENT_NUMBER)) return;
     switch (this.operation){
       case '+':
@@ -145,23 +178,36 @@ class Calculator{
       default:
         return;
     }
+
     this.currentOperand = output;
     this.operation = undefined;
     this.previousOperand = "";
   }
 
+  /**
+   * Formats the integer portion of a string number with commas for thousands seperators.
+   * The number is split into integer and decimal portions.
+   * The formatted integer portion is concatenated with the decimal portion.
+   * 
+   * @param {*} number String operand
+   * @returns Formatted number string.
+   */
   getDisplayNumber(number) {
     const STRING_NUMBER = number.toString();
     const INTEGER_DIGITS = parseFloat(STRING_NUMBER.split('.')[0]);
     const DECIMAL_DIGITS = STRING_NUMBER.split('.')[1];
     let integerDisplay;
+
+    // Format integer portion
     if (isNaN(INTEGER_DIGITS)) {
       integerDisplay = "";
     }
     else {
+      // English locale string implements thousands seperator comma formatting.
       integerDisplay = INTEGER_DIGITS.toLocaleString("en", {maximumFractionDigits: 0})
     }
 
+    // Connect decimal portion
     if (DECIMAL_DIGITS != null) {
       return `${integerDisplay}.${DECIMAL_DIGITS}`;
     }
@@ -170,6 +216,9 @@ class Calculator{
     }
   }
 
+  /**
+   * Updates the display by setting the previous operand and current operand text.
+   */
   updateDisplay() {
     this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand);
     if (this.operation != null) {
@@ -181,4 +230,5 @@ class Calculator{
   }
 }
 
+// Init Calculator
 let calculator = new Calculator(PREVIOUS_OPERAND, CURRENT_OPERAND);
