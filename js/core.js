@@ -87,7 +87,7 @@ class Calculator{
    * @param {*} y - y
    * @returns - number using the same input format.
    */
-  add(x, y){
+  add(x, y) {
     return x + y;
   }
 
@@ -98,7 +98,7 @@ class Calculator{
    * @param {*} y - y
    * @returns - number using the same input format.
    */
-  subtract(x, y){
+  subtract(x, y) {
     return x - y;
   }
 
@@ -109,7 +109,7 @@ class Calculator{
    * @param {*} y - y
    * @returns - number using the same input format.
    */
-  multiply(x, y){
+  multiply(x, y) {
     return x * y;
   }
 
@@ -120,7 +120,7 @@ class Calculator{
    * @param {*} y - y
    * @returns - number using the same input format.
    */
-  divide(x, y){
+  divide(x, y) {
     return x / y;
   }
 

@@ -54,7 +54,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Main */
-#title{
+#title {
   position: absolute;
   top: 1rem;
   font-size: 2rem;
@@ -165,7 +165,7 @@ button.red {
 }
 
 /* Footer */
-#copyright{
+#copyright {
   position: absolute;
   bottom: 1rem;
   font-size: 0.9rem;
