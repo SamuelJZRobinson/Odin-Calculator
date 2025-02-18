@@ -1,4 +1,4 @@
-# calculator
+# Odin-Calculator
 **Summary:**
 - A browser calculator.
 - Features:
