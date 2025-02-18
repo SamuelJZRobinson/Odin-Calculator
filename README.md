@@ -15,3 +15,6 @@
 **Image Credits:**
 - https://app.haikei.app/
 - https://www.flaticon.com/free-icon/calculator_1031688
+
+**Live Demo:**
+- https://samueljzrobinson.github.io/Odin-Calculator/
