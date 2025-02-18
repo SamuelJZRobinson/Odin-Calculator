@@ -4,7 +4,7 @@
 - Features:
   - Clear
   - Backspace
-  - Basic arithmetic (+,-,*,/)
+  - Basic arithmetic (+, -, *, /)
   - Decimal places
 
 **Tech Used:**
