@@ -54,6 +54,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Main */
+#title{
+  position: absolute;
+  top: 1rem;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
 main {
   display: flex;
   align-items: center;
@@ -127,6 +134,9 @@ main {
 }
 
 button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.5rem;
   font-weight: normal;
   cursor: pointer;
@@ -152,4 +162,12 @@ button.dark {
 button.red {
   color: var(--button-text);
   background-color: var(--button-red-bg);
+}
+
+/* Footer */
+#copyright{
+  position: absolute;
+  bottom: 1rem;
+  font-size: 0.9rem;
+  font-weight: normal;
 }
