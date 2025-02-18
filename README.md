@@ -14,3 +14,4 @@
 
 **Image Credits:**
 - https://app.haikei.app/
+- https://www.flaticon.com/free-icon/calculator_1031688
